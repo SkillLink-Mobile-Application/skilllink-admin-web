@@ -30,6 +30,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard-page">
+
       {/* Dashboard Header */}
       <header className="dashboard-header">
         <div>
@@ -50,11 +51,12 @@ function Dashboard() {
           </p>
         </div>
 
-        <span className="greeting-icon">💙</span>
+        <span className="greeting-icon">🟡</span>
       </section>
 
       {/* Summary Cards */}
       <section className="dashboard-cards">
+
         <div className="dashboard-card">
           <div className="card-icon">👥</div>
           <h3>Total Users</h3>
@@ -78,6 +80,7 @@ function Dashboard() {
           <h3>Total Administrators</h3>
           <p>0</p>
         </div>
+
       </section>
 
       {/* Quick Actions */}
@@ -101,6 +104,7 @@ function Dashboard() {
           </Link>
         </div>
       </section>
+
     </div>
   );
 }

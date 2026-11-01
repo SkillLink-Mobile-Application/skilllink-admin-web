@@ -70,6 +70,8 @@ function ProviderApplications() {
 
   return (
     <div className="applications-page">
+
+      {/* Page Header */}
       <header className="applications-header">
         <div>
           <h1>Provider Applications</h1>
@@ -81,15 +83,19 @@ function ProviderApplications() {
         </span>
       </header>
 
+      {/* Summary Card */}
       <section className="application-summary">
         <div className="application-summary-icon">📋</div>
+
         <div>
           <p>Pending Applications</p>
           <h2>{pendingCount}</h2>
         </div>
       </section>
 
+      {/* Applications Content */}
       <section className="applications-content">
+
         <div className="applications-toolbar">
           <div>
             <h2>Applications List</h2>
@@ -101,6 +107,7 @@ function ProviderApplications() {
           </span>
         </div>
 
+        {/* Search and Filter */}
         <div className="applications-filters">
           <input
             type="search"
@@ -122,8 +129,10 @@ function ProviderApplications() {
           </select>
         </div>
 
+        {/* Applications Table */}
         <div className="applications-table-wrapper">
           <table className="applications-table">
+
             <thead>
               <tr>
                 <th>Provider</th>
@@ -137,6 +146,7 @@ function ProviderApplications() {
             <tbody>
               {filteredApplications.map((application) => (
                 <tr key={application.id}>
+
                   <td>
                     <div className="provider-cell">
                       <div className="provider-avatar">
@@ -151,6 +161,7 @@ function ProviderApplications() {
                   </td>
 
                   <td>{application.category}</td>
+
                   <td>{application.date}</td>
 
                   <td>
@@ -163,6 +174,7 @@ function ProviderApplications() {
 
                   <td>
                     <div className="application-actions">
+
                       <button
                         className="application-view-btn"
                         type="button"
@@ -210,8 +222,10 @@ function ProviderApplications() {
                           </button>
                         </>
                       )}
+
                     </div>
                   </td>
+
                 </tr>
               ))}
 
@@ -223,6 +237,7 @@ function ProviderApplications() {
                 </tr>
               )}
             </tbody>
+
           </table>
         </div>
       </section>

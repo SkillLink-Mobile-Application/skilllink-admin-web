@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, NavLink, Navigate } from "react-router-do
 
 import Dashboard from "./pages/Dashboard";
 import ProviderApplications from "./pages/ProviderApplications";
+import Login from "./pages/Login";
 
 function AdminLayout() {
   return (
@@ -26,17 +27,8 @@ function AdminLayout() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/applications" element={<ProviderApplications />} />
-
-          <Route
-            path="/users"
-            element={<h1>User Management</h1>}
-          />
-
-          <Route
-            path="/admins"
-            element={<h1>Admin Management</h1>}
-          />
-
+          <Route path="/users" element={<h1>User Management</h1>} />
+          <Route path="/admins" element={<h1>Admin Management</h1>} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
@@ -48,7 +40,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/*" element={<AdminLayout />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
