@@ -1,0 +1,189 @@
+/* Small additions used by the backend-connected pages */
+
+.sidebar-logout {
+  width: 100%;
+  margin-top: 24px;
+  padding: 11px 14px;
+  border: 1px solid #ffc400;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffc400;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sidebar-logout:hover {
+  background: #ffc400;
+  color: #0d0d0d;
+}
+
+.sidebar-user {
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.sidebar-user small {
+  display: block;
+  margin-top: 2px;
+  color: #ffc400;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.login-error {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.login-success {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.auth-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #925b00;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-link:disabled {
+  color: #999999;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.login-card input.otp-input {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+}
+
+.page-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: #777777;
+  font-size: 14px;
+}
+
+.page-state.error {
+  color: #b91c1c;
+}
+
+.page-state button {
+  margin-top: 12px;
+}
+
+.detail-list {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 10px 14px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.detail-list dt {
+  color: #6b6b6b;
+  font-weight: 600;
+}
+
+.detail-list dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.detail-list a {
+  color: #925b00;
+  font-weight: 700;
+}
+
+/* Select inside admin forms (matches the text inputs) */
+.field select {
+  height: 44px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #0d0d0d;
+  cursor: pointer;
+}
+
+.field select:disabled {
+  background: #f3f3f3;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+.field input:disabled {
+  background: #f3f3f3;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+/* Change password page */
+.change-password-card {
+  max-width: 460px;
+}
+
+.force-banner {
+  max-width: 460px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-left: 4px solid #ffc400;
+  border-radius: 8px;
+  background: #fff8dc;
+  color: #0d0d0d;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.inline-success {
+  margin: 8px 0;
+  color: #218044;
+  font-size: 13px;
+  font-weight: 700;
+}
