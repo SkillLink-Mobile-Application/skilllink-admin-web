@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Dashboard.css";
 import { getStats } from "../services/api";
+import { getAdminName } from "../services/api";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -15,6 +16,7 @@ function Dashboard() {
   const [greeting, setGreeting] = useState(getGreeting());
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
+  const adminName = getAdminName();
 
   useEffect(() => {
     const interval = setInterval(() => setGreeting(getGreeting()), 60000);
@@ -55,7 +57,7 @@ function Dashboard() {
       {/* Time-based Greeting */}
       <section className="dashboard-greeting">
         <div>
-          <h2>{greeting}, Admin! 👋</h2>
+          <h2>{greeting}, {adminName || "Admin"}! 👋</h2>
           <p>
             Welcome to the SkillLink Admin Portal.
             Here's what's happening with your platform.
