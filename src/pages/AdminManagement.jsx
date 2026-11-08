@@ -10,7 +10,7 @@ import {
   compareBy,
   nextSort,
   useToast,
-} from "../components/ManagementUI";
+} from "../components/Managementui";
 import {
   createAdmin,
   deleteAdmin,
