@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import "../styles/Management.css";
 import "../styles/ProviderApplications.css";
-import { Modal, ToastStack, useToast } from "../components/ManagementUI";
+import { Modal, ToastStack, useToast } from "../components/Managementui";
 import {
   API_BASE_URL,
   approveApplication,
