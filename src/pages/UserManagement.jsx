@@ -12,7 +12,7 @@ import {
   compareBy,
   nextSort,
   useToast,
-} from "../components/ManagementUI";
+} from "../components/Managementui";
 import { blockUser, getUsers, unblockUser } from "../services/api";
 
 // Supports both the new roles array and the old single role response.
