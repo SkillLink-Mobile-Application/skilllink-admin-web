@@ -1,3 +1,4 @@
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const TOKEN_KEY = "skilllink_admin_token";
@@ -31,7 +32,6 @@ export function getRoles() {
   }
 }
 
-// UI only: the server re-checks this on every admin-management request.
 export function isSuperAdmin() {
   return getRoles().includes("SUPER_ADMIN");
 }
@@ -45,18 +45,23 @@ function saveSession(data, email) {
   localStorage.setItem(EMAIL_KEY, email);
   localStorage.setItem(NAME_KEY, data.name || email);
   localStorage.setItem(ROLES_KEY, JSON.stringify(data.roles || []));
-  localStorage.setItem(MUST_CHANGE_KEY, data.mustChangePassword ? "true" : "false");
+  localStorage.setItem(
+    MUST_CHANGE_KEY,
+    data.mustChangePassword ? "true" : "false"
+  );
 }
 
 export function clearSession() {
-  [TOKEN_KEY, EMAIL_KEY, NAME_KEY, ROLES_KEY, MUST_CHANGE_KEY].forEach((key) =>
-    localStorage.removeItem(key)
+  [TOKEN_KEY, EMAIL_KEY, NAME_KEY, ROLES_KEY, MUST_CHANGE_KEY].forEach(
+    (key) => localStorage.removeItem(key)
   );
 }
 
 function isTokenExpired(token) {
   try {
-    const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    const payload = JSON.parse(
+      atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
+    );
     return payload.exp ? payload.exp * 1000 <= Date.now() : false;
   } catch {
     return true;
@@ -65,11 +70,14 @@ function isTokenExpired(token) {
 
 export function isAuthenticated() {
   const token = getToken();
+
   if (!token) return false;
+
   if (isTokenExpired(token)) {
     clearSession();
     return false;
   }
+
   return true;
 }
 
@@ -83,13 +91,17 @@ export class ApiError extends Error {
 }
 
 async function request(path, { method = "GET", body, auth = true } = {}) {
-  const headers = { "Content-Type": "application/json" };
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
   if (auth) {
     const token = getToken();
     if (token) headers.Authorization = `Bearer ${token}`;
   }
 
   let response;
+
   try {
     response = await fetch(`${API_BASE_URL}${path}`, {
       method,
@@ -97,31 +109,41 @@ async function request(path, { method = "GET", body, auth = true } = {}) {
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new ApiError("Can't reach the server. Check that the backend is running.", 0);
+    throw new ApiError(
+      "Can't reach the server. Check that the backend is running.",
+      0
+    );
   }
 
   const text = await response.text();
+
   let data = null;
+
   if (text) {
     try {
       data = JSON.parse(text);
     } catch {
-      data = text; // backend sometimes returns plain-text errors
+      data = text;
     }
   }
 
   if (!response.ok) {
-    // Expired or invalid token on a protected call -> back to login.
     if (auth && response.status === 401) {
       clearSession();
       window.location.assign("/login");
     }
 
     let message;
-    if (typeof data === "string" && data) message = data;
-    else if (data && data.message) message = data.message;
-    else if (response.status === 403) message = "You don't have permission to do that.";
-    else message = `Request failed (${response.status}).`;
+
+    if (typeof data === "string" && data) {
+      message = data;
+    } else if (data && data.message) {
+      message = data.message;
+    } else if (response.status === 403) {
+      message = "You don't have permission to do that.";
+    } else {
+      message = `Request failed (${response.status}).`;
+    }
 
     throw new ApiError(message, response.status);
   }
@@ -145,6 +167,7 @@ export async function login(email, password) {
   }
 
   saveSession(data, normalizedEmail);
+
   return data;
 }
 
@@ -174,7 +197,9 @@ export async function changePassword(currentPassword, newPassword) {
     method: "PUT",
     body: { currentPassword, newPassword },
   });
+
   localStorage.setItem(MUST_CHANGE_KEY, "false");
+
   return result;
 }
 
@@ -183,18 +208,127 @@ export async function changePassword(currentPassword, newPassword) {
 export const getStats = () => request("/api/admin/stats");
 
 export const getUsers = () => request("/api/admin/users");
-export const blockUser = (id) => request(`/api/admin/users/${id}/block`, { method: "PUT" });
-export const unblockUser = (id) => request(`/api/admin/users/${id}/unblock`, { method: "PUT" });
+
+export const blockUser = (id) =>
+  request(`/api/admin/users/${id}/block`, { method: "PUT" });
+
+export const unblockUser = (id) =>
+  request(`/api/admin/users/${id}/unblock`, { method: "PUT" });
 
 export const getAdmins = () => request("/api/admin/admins");
-export const createAdmin = (payload) =>
-  request("/api/admin/admins", { method: "POST", body: payload });
-export const updateAdmin = (id, payload) =>
-  request(`/api/admin/admins/${id}`, { method: "PUT", body: payload });
-export const deleteAdmin = (id) => request(`/api/admin/admins/${id}`, { method: "DELETE" });
 
-export const getApplications = () => request("/api/admin/provider-applications");
+export const createAdmin = (payload) =>
+  request("/api/admin/admins", {
+    method: "POST",
+    body: payload,
+  });
+
+export const updateAdmin = (id, payload) =>
+  request(`/api/admin/admins/${id}`, {
+    method: "PUT",
+    body: payload,
+  });
+
+export const deleteAdmin = (id) =>
+  request(`/api/admin/admins/${id}`, {
+    method: "DELETE",
+  });
+
+export const getApplications = () =>
+  request("/api/admin/provider-applications");
+
 export const approveApplication = (id) =>
-  request(`/api/admin/provider-applications/${id}/approve`, { method: "PUT" });
+  request(`/api/admin/provider-applications/${id}/approve`, {
+    method: "PUT",
+  });
+
 export const rejectApplication = (id) =>
-  request(`/api/admin/provider-applications/${id}/reject`, { method: "PUT" });
+  request(`/api/admin/provider-applications/${id}/reject`, {
+    method: "PUT",
+  });
+
+/* ---------- Category Management ---------- */
+
+// Get all categories (active + inactive)
+export const getCategories = () =>
+  request("/api/admin/categories");
+
+// Add category
+export const createCategory = (payload) =>
+  request("/api/admin/categories", {
+    method: "POST",
+    body: payload,
+  });
+
+// Update category
+export const updateCategory = (id, payload) =>
+  request(`/api/admin/categories/${id}`, {
+    method: "PUT",
+    body: payload,
+  });
+
+// Activate / Deactivate category
+export const updateCategoryStatus = (id, active) =>
+  request(`/api/admin/categories/${id}/status`, {
+    method: "PATCH",
+    body: { active },
+  });
+
+// Upload category image to Cloudinary
+export async function uploadCategoryImage(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const headers = {};
+  const token = getToken();
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  let response;
+
+  try {
+    response = await fetch(
+      `${API_BASE_URL}/api/admin/categories/upload-image`,
+      {
+        method: "POST",
+        headers,
+        body: formData,
+      }
+    );
+  } catch {
+    throw new ApiError(
+      "Can't reach the server. Check that the backend is running.",
+      0
+    );
+  }
+
+  const text = await response.text();
+
+  let data = null;
+
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      clearSession();
+      window.location.assign("/login");
+    }
+
+    const message =
+      typeof data === "string"
+        ? data
+        : data?.message || `Image upload failed (${response.status}).`;
+
+    throw new ApiError(message, response.status);
+  }
+
+  return data;
+}
