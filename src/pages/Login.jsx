@@ -114,9 +114,15 @@ function Login() {
             </button>
           </form>
 
+          
           <p className="login-footer">
             Secure access for SkillLink administrators
           </p>
+
+          <p className="developer-credit">
+            Developed by <strong>Charuni Liyanage</strong>
+          </p>
+
         </div>
       </div>
     </div>
